@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 FactoryBot.define do
   clock_in = Faker::Time.between_dates(from: 1.week.ago, to: Date.current, period: :night)
   clock_out = Faker::Time.between_dates(from: 1.week.ago, to: Date.current, period: :morning)

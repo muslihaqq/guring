@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+  skip_before_action :authorized
+  
   def index
     @users = User.all.limit(5)
     json_response({data: @users})
