@@ -1,7 +1,6 @@
 class PingController < ApplicationController
   def index
-    json_response({
-      ping: "pong"
-    })
+    ping = { ping: "pong" }
+    render_json ping
   end
 end
