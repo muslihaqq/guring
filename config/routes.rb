@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         member do
           post 'follow'
           delete 'follow', to: 'users#unfollow'
-          get 'sleep_records'
+          get 'sleep_records', to: 'users#sleep_records'
         end
       end
 

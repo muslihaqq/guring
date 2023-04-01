@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authorized, only: [:login, :index]
-  before_action :set_user, only: [:show, :follow, :unfollow]
+  before_action :set_user, only: [:show, :follow, :unfollow, :sleep_records]
   
   def index
     @users = User.all.limit(5)
@@ -18,6 +18,23 @@ class Api::V1::UsersController < ApplicationController
       data: @user,
       last_week_records: @one_week_records
     })
+  end
+
+  def sleep_records
+    return json_response(
+      { message: "User not found" }, :not_found
+    ) unless @user
+
+    if current_user.following.include?(@user)
+      @sleep_records = @user.sleep_records
+      json_response({
+        data: @sleep_records
+      })
+    else
+      json_response({
+        message: "You need to follow this user to see their sleep records"
+      }, :unprocessable_entity)
+    end
   end
 
   def follow
