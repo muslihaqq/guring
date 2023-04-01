@@ -4,6 +4,8 @@ class ApplicationController < ActionController::API
 
   before_action :authorized
 
+  private
+
   def encode_token(payload)
     JWT.encode(payload, 's3cr3t')
   end
@@ -23,15 +25,15 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def logged_in_user
+  def current_user
     if decoded_token
       user_id = decoded_token[0]['user_id']
-      @user = User.find_by(id: user_id)
+      @current_user = User.find_by(id: user_id)
     end
   end
 
   def logged_in?
-    !!logged_in_user
+    !!current_user
   end
 
   def authorized

@@ -5,6 +5,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only:[:index, :show] do
         post :login, on: :collection
+        member do
+          post 'follow'
+          delete 'follow', to: 'users#unfollow'
+          get 'sleep_records'
+        end
       end
 
       resources :sleep_records, only: [:index] do

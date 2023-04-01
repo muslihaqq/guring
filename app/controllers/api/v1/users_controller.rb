@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authorized, only: [:login, :index]
-  before_action :selected_user, only: [:show]
+  before_action :set_user, only: [:show, :follow, :unfollow]
   
   def index
     @users = User.all.limit(5)
@@ -10,14 +10,34 @@ class Api::V1::UsersController < ApplicationController
   def show
     return json_response(
       { message: "User not found" }, :not_found
-    ) unless @selected_user
+    ) unless @user
 
-    @one_week_records = @selected_user&.last_week_records
+    @one_week_records = @user&.last_week_records
     json_response({
       params: params[:id],
-      data: @selected_user,
+      data: @user,
       last_week_records: @one_week_records
     })
+  end
+
+  def follow
+    if current_user.following.include?(@user)
+      json_response({error: "You are already following this user"}, :unprocessable_entity)
+  elsif current_user.follow(@user)
+      json_response({data: "You are now following this user"})
+    else
+      json_response({error: "Failed to follow #{@user.name}"}, :unprocessable_entity)
+    end
+  end
+
+  def unfollow
+    if !current_user.following?(@user)
+      json_response({error: "#{@user.name} is not being followed"}, :unprocessable_entity)
+    elsif current_user.unfollow(@user)
+      json_response({error: "Successfully unfollowed #{@user.name}"}, :ok)
+    else
+      json_response({error: "Failed to unfollow #{@user.name}"}, :unprocessable_entity)
+    end
   end
 
   def login
@@ -39,8 +59,8 @@ class Api::V1::UsersController < ApplicationController
   
   private
   
-  def selected_user
-    @selected_user = User.find_by_id(params[:id])
+  def set_user
+    @user = User.find(params[:id])
   end
 end
                                           
