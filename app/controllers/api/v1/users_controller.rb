@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authorized
+  skip_before_action :authorized, only: [:login, :index]
+  before_action :selected_user, only: [:show]
   
   def index
     @users = User.all.limit(5)
@@ -7,9 +8,14 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    @one_week_records = @user.last_week_records
+    return json_response(
+      { message: "User not found" }, :not_found
+    ) unless @selected_user
+
+    @one_week_records = @selected_user&.last_week_records
     json_response({
-      data: @user,
+      params: params[:id],
+      data: @selected_user,
       last_week_records: @one_week_records
     })
   end
@@ -29,6 +35,12 @@ class Api::V1::UsersController < ApplicationController
         error: "Login: Invalid user handle"
       }, :unauthorized)
     end
+  end
+  
+  private
+  
+  def selected_user
+    @selected_user = User.find_by_id(params[:id])
   end
 end
                                           
