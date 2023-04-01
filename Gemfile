@@ -11,6 +11,8 @@ gem "bootsnap", require: false
 gem "socialization"
 
 group :development, :test do
+  gem "pry-rails"
+  gem "byebug", "~> 11.1"
   gem 'factory_bot_rails'
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem 'faker'
@@ -21,6 +23,3 @@ group :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
 end
-
-
-gem "byebug", "~> 11.1", :groups => [:development, :test]

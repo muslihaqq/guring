@@ -170,7 +170,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       let(:headers)         { { authorization: "Bearer #{token}" } }
       let(:second_user)     { create(:user) }
 
-      context "when follow other user" do
+      context "when unfollow a followed user" do
         before do
           post "/api/v1/users/#{second_user.id}/follow", headers: headers
           delete "/api/v1/users/#{second_user.id}/unfollow", headers: headers
@@ -188,7 +188,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         end
       end
 
-      context "when following a user already followed" do
+      context "when unfollow a user not being followed" do
         before do
           delete "/api/v1/users/#{second_user.id}/unfollow", headers: headers
         end
