@@ -18,85 +18,84 @@ RSpec.describe Api::V1::SleepRecordsController, type: :controller do
         it "returns a 200 response" do
           expect(response).to have_http_status(200)
         end
-        
+
         it "returns only complete sleep records" do
-          records = JSON.parse(response.body)["data"]
-          expect(records.length).to eq(3)
+          expect(response_body[:data].length).to eq(3)
         end
       end
-      
+
       context "when user is not authenticated" do
         before { get "/api/v1/sleep_records" }
-        
+
         it "returns a 401 response" do
           expect(response).to have_http_status(401)
         end
       end
     end
-    
+
     describe "#clock_in" do
       context "when user is authenticated" do
         before do
           post "/api/v1/sleep_records/clock_in", headers: headers
         end
-        
-        it "returns a 200 response" do
-          expect(response).to have_http_status(200)
+
+        it "returns a 201 response" do
+          expect(response).to have_http_status(201)
         end
-        
+
         it "returns a success message" do
-          message = JSON.parse(response.body)["message"]
+          message = response_body[:data][:message]
           expect(message).to eq("Successfully clock in!")
         end
       end
-      
+
       context "when user is not authenticated" do
         before { post "/api/v1/sleep_records/clock_in" }
-        
+
         it "returns a 401 response" do
           expect(response).to have_http_status(401)
         end
       end
     end
-    
+
     describe "#clock_out" do
       context "when user is authenticated and has incomplete sleep record" do
         let!(:sleep_record_incomplete) { create(:sleep_record_incomplete, user: user) }
-        
+
         before do
-          post "/api/v1/sleep_records/clock_out", headers: headers
+          patch "/api/v1/sleep_records/clock_out", headers: headers
         end
-        
+
         it "returns a 200 response" do
           expect(response).to have_http_status(200)
         end
-        
+
         it "returns a success message" do
-          message = JSON.parse(response.body)["message"]
+          message = response_body[:data][:message]
           expect(message).to eq("Successfully clock out!")
         end
       end
-      
+
       context "when user is not authenticated" do
-        before { post "/api/v1/sleep_records/clock_out" }
-        
+        before { patch "/api/v1/sleep_records/clock_out" }
+
         it "returns a 401 response" do
           expect(response).to have_http_status(401)
         end
       end
-      
+
       context "when user is authenticated but has no incomplete sleep record" do
         before do
           create(:sleep_record, user: user)
-          post "/api/v1/sleep_records/clock_out", headers: headers
+          patch "/api/v1/sleep_records/clock_out", headers: headers
         end
-        
-        it "returns a 400 response" do
-          expect(response).to have_http_status(400)
+
+        it "returns a 404 response" do
+          expect(response).to have_http_status(404)
         end
-        
+
         it "returns an error message" do
-          error = JSON.parse(response.body)["error"]
+          error = response_body[:error]
           expect(error).to eq("Theres no incomplete record")
         end
       end
