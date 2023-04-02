@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SleepRecordService < ApplicationService
   def initialize(user)
     super()
@@ -14,7 +16,7 @@ class SleepRecordService < ApplicationService
 
   def clock_out
     incomplete_clock_out = @user.sleep_records.incomplete.last
-    exist!(incomplete_clock_out, on_error: "Theres no incomplete record")
+    exist!(incomplete_clock_out, on_error: 'Theres no incomplete record')
 
     @user.clock_out!
   end

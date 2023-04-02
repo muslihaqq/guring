@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   has_many :sleep_records
   has_many :active_relationships,
-            class_name: "Follow",
-            foreign_key: "follower_id",
-            dependent: :destroy
+           class_name: 'Follow',
+           foreign_key: 'follower_id',
+           dependent: :destroy
   has_many :passive_relationships,
-            class_name: "Follow",
-            foreign_key: "followed_id",
-            dependent: :destroy
+           class_name: 'Follow',
+           foreign_key: 'followed_id',
+           dependent: :destroy
   has_many :following,
-            through: :active_relationships,
-            source: :followed
+           through: :active_relationships,
+           source: :followed
   has_many :followers,
-            through: :passive_relationships,
-            source: :follower
+           through: :passive_relationships,
+           source: :follower
 
   def clock_in!
     sleep_records.create!(clock_in: DateTime.now)

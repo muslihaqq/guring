@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class ApplicationService
-  def exist!(object, on_error: "Not Found")
+  def exist!(object, on_error: 'Not Found')
     raise NotFound, on_error if object.nil?
   end
 
-  def assert!(truth, on_error: "Invalid")
+  def assert!(truth, on_error: 'Invalid')
     raise Invalid, on_error if truth
   end
 
-  def authorize!(permission, on_error: "Invalid")
+  def authorize!(permission, on_error: 'Invalid')
     raise NotAuthorized, on_error if permission.nil?
   end
 

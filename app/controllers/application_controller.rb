@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'pagy/extras/metadata'
 
 class ApplicationController < ActionController::API
-  include Response
   include Pagy::Backend
   include ExceptionHandler
 
@@ -66,7 +67,7 @@ class ApplicationController < ActionController::API
     {
       prev_page: options[:prev],
       current_page: options[:page],
-      next_page: options[:next],
+      next_page: options[:next]
     }
   end
 

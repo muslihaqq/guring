@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SuccessOutput < ApiOutput
   def format
     { message: message_success }
@@ -6,6 +8,6 @@ class SuccessOutput < ApiOutput
   private
 
   def message_success
-    @options[:message] ||= "Success"
+    @options[:message] ||= 'Success'
   end
 end

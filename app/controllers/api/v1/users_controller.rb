@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authorized, only: [:login, :index]
+  skip_before_action :authorized, only: %i[login index]
 
   def index
     users = service.list_users
