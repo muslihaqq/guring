@@ -115,8 +115,8 @@ curl --request POST \
  ```
  ##### Header Parameters
 
-| `Authorization` | `Bearer YOUR_TOKEN` |
-|---|---|---|
+| `Authorization` | `Bearer YOUR_TOKEN` | 
+|---|---|
 
 #### Success response
 ```
