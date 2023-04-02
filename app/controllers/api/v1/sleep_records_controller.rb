@@ -1,8 +1,9 @@
 class Api::V1::SleepRecordsController < ApplicationController
   def index
-    #TODO paginate
-    results = service.sleep_records
-    render_json results
+    sleep_records = service.sleep_records
+    pagy, results = pagy(sleep_records, items: limit)
+    render_json_array results,
+                      metadata: pagy_metadata(pagy)
   end
 
   def clock_in

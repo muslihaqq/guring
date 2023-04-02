@@ -8,7 +8,7 @@ RSpec.describe Api::V1::SleepRecordsController, type: :controller do
     let(:auth_token) { JWT.encode({ user_id: user.id }, 's3cr3t') }
     let(:headers) { { authorization: "Bearer #{auth_token}" } }
 
-    describe "GET /api/v1/sleep_records " do
+    describe "GET /api/v1/sleep_records" do
       context "when user is authenticated" do
         before do
           create_list(:sleep_record, 3, user: user)
@@ -17,6 +17,17 @@ RSpec.describe Api::V1::SleepRecordsController, type: :controller do
 
         it "returns a 200 response" do
           expect(response).to have_http_status(200)
+        end
+
+        it "returns a 200 response with pagination" do
+          get "/api/v1/sleep_records",
+              params: { page: 2, limit: 1 },
+              headers: headers
+          expect(response).to have_http_status(200)
+          expect(response_body[:data].length).to eq(1)
+          expect(response_body[:metadata][:prev_page]).to eq(1)
+          expect(response_body[:metadata][:current_page]).to eq(2)
+          expect(response_body[:metadata][:next_page]).to eq(3)
         end
 
         it "returns only complete sleep records" do

@@ -1,10 +1,11 @@
 class UserService < ApplicationService
   def initialize(current_user = nil)
+    super()
     @current_user = current_user
   end
 
   def list_users
-    User.all.limit(5)
+    User.all
   end
 
   def sleep_records(user)

@@ -1,5 +1,8 @@
+require 'pagy/extras/metadata'
+
 class ApplicationController < ActionController::API
   include Response
+  include Pagy::Backend
   include ExceptionHandler
 
   before_action :authorized
@@ -49,5 +52,25 @@ class ApplicationController < ActionController::API
     method = options[:use] || :format
     output = klass.new(model, **options).send(method)
     render json: { data: output }, status: status
+  end
+
+  def render_json_array(model, klass = default_output, **options)
+    status = options[:status] || :ok
+    method = options[:use] || :format
+    metadata = metadata(options[:metadata])
+    output = klass.new(model, **options).send(method)
+    render json: { data: output, metadata: metadata }, status: status
+  end
+
+  def metadata(options)
+    {
+      prev_page: options[:prev],
+      current_page: options[:page],
+      next_page: options[:next],
+    }
+  end
+
+  def limit
+    params[:limit] || 25
   end
 end

@@ -16,8 +16,19 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
       it "returns limited number of users" do
         get '/api/v1/users'
-        parsed_response = response_body[:data]
-        expect(parsed_response.length).to eq(1)
+        expect(response_body[:data].length).to eq(1)
+      end
+
+      it "returns http success with pagination" do
+        15.times { create(:user) }
+        get "/api/v1/users",
+            params: { page: 3, limit: 5 },
+            headers: headers
+        expect(response).to have_http_status(:success)
+        expect(response_body[:data].length).to eq(5)
+        expect(response_body[:metadata][:prev_page]).to eq(2)
+        expect(response_body[:metadata][:current_page]).to eq(3)
+        expect(response_body[:metadata][:next_page]).to eq(4)
       end
     end
 

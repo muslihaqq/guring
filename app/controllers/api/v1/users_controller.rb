@@ -3,7 +3,9 @@ class Api::V1::UsersController < ApplicationController
 
   def index
     users = service.list_users
-    render_json users
+    pagy, results = pagy(users, items: limit)
+    render_json_array results,
+                      metadata: pagy_metadata(pagy)
   end
 
   def show
