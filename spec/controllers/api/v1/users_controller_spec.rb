@@ -59,6 +59,21 @@ RSpec.describe Api::V1::UsersController, type: :controller do
           expect(response_body[:data][0][:id]).to eq(sleep_record1.id)
           expect(response_body[:data][1][:id]).to eq(sleep_record2.id)
         end
+
+        it 'returns the sleep records with pagination' do
+          sleep_record1 = create(:sleep_record, user: target_user)
+          sleep_record2 = create(:sleep_record, user: target_user)
+
+          get "/api/v1/users/#{target_user.id}/sleep_records",
+              params: { limit: 1 },
+              headers: headers
+          expect(response_body[:data]).to be_an(Array)
+          expect(response_body[:data].size).to eq(1)
+          expect(response_body[:data][0][:id]).to eq(sleep_record1.id)
+          expect(response_body[:metadata][:prev_page]).to eq(nil)
+          expect(response_body[:metadata][:current_page]).to eq(1)
+          expect(response_body[:metadata][:next_page]).to eq(2)
+        end
       end
 
       context "when user is not authorized to view the target user's sleep records" do

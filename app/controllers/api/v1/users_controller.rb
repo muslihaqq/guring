@@ -20,7 +20,9 @@ class Api::V1::UsersController < ApplicationController
 
   def sleep_records
     sleep_records = service.sleep_records(user)
-    render_json sleep_records
+    pagy, results = pagy(sleep_records, items: limit)
+    render_json_array results,
+                      metadata: pagy_metadata(pagy)
   end
 
   def follow
