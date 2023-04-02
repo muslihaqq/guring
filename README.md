@@ -74,6 +74,14 @@ curl --request POST \
 }'
   
 ```
+ ##### Header Parameters
+
+#### Body parameters
+|operator| type| description|
+|---|---|---|
+| `handle` | String | User handle |
+
+
 
 #### Success response
 ```
@@ -87,6 +95,8 @@ curl --request POST \
 	}
 }
 ```
+Use data[:token] field to use as authorization in header to access other APIs
+
 #### Error response
 ```
 {
@@ -103,7 +113,11 @@ curl --request POST \
   --header 'Authorization: Bearer YOUR_TOKEN' \
   --header 'Content-Type: application/json'
  ```
- 
+ ##### Header Parameters
+
+| `Authorization` | `Bearer YOUR_TOKEN` |
+|---|---|---|
+
 #### Success response
 ```
 {
@@ -120,6 +134,7 @@ curl --request POST \
 ```
 
 ### DELETE /api/v1/users/:id/unfollow
+#### Request
 ```
 curl --request DELETE \
   --url http://localhost:3000/api/v1/users/2/unfollow \
@@ -130,6 +145,12 @@ curl --request DELETE \
 	"handle": "USER_HANDLER"
 }'
 ```
+
+##### Header Parameters
+
+| `Authorization` | `Bearer YOUR_TOKEN` |
+|---|---|---|
+
 #### Success response
 ```
 {
@@ -166,6 +187,23 @@ curl --request GET \
 }'
 ```
 
+##### Header Parameters
+
+| `Authorization` | `Bearer YOUR_TOKEN` |
+|---|---|
+
+#### Body parameters
+|operator| type| description|
+|---|---|---|
+| `handle` | String | User handle |
+
+##### Query parameters
+|operator| type| description|
+|---|---|---|
+| `limit` | Number | to limit the records |
+| `page` | Number | set the current page |
+
+
 #### Success response
 ```
 {
@@ -198,6 +236,7 @@ User not being followed
 ```
 
 ### [GET /api/v1/users/:id]
+#### Request
 #### Success response
 ```
 {
@@ -221,6 +260,17 @@ User not being followed
 	}
 }
 ```
+##### Header Parameters
+
+| `Authorization` | `Bearer YOUR_TOKEN` |
+|---|---|
+
+##### Query parameters
+|operator| type| description|
+|---|---|---|
+| `limit` | Number | to limit the records |
+| `page` | Number | set the current page |
+
 #### Error response
 User not found
 ```
@@ -230,6 +280,7 @@ User not found
 ```
 
 ### [POST /api/v1/sleep_records/clock_in]
+#### Request
 ```
 curl --request POST \
   --url http://localhost:3000/api/v1/sleep_records/clock_in \
@@ -237,6 +288,11 @@ curl --request POST \
   --header 'Authorization: Bearer YOUR_TOKEN' \
   --header 'Content-Type: application/json'
 ```
+##### Header Parameters
+
+| `Authorization` | `Bearer YOUR_TOKEN` |
+|---|---|
+
 #### Success response
 ```
 {
@@ -248,6 +304,7 @@ curl --request POST \
 #### Error response
 
 ### [PATCH /api/v1/sleep_records/clock_out]
+#### Request
 ```
 curl --request PATCH \
   --url http://localhost:3000/api/v1/sleep_records/clock_out \
@@ -255,6 +312,13 @@ curl --request PATCH \
   --header 'Authorization: Bearer YOUR_TOKEN' \
   --header 'Content-Type: application/json'
 ```
+
+##### Header Parameters
+
+| `Authorization` | `Bearer YOUR_TOKEN` |
+|---|---|
+
+
 #### Success response
 ```
 {
@@ -271,6 +335,7 @@ curl --request PATCH \
 ```
 
 ### [GET /api/v1/sleep_records]
+#### Request
 ```
 curl --request GET \
   --url http://localhost:3000/api/v1/sleep_records \
@@ -278,6 +343,17 @@ curl --request GET \
   --header 'Authorization: Bearer YOUR_TOKEN' \
   --header 'Content-Type: application/json'
 ```
+##### Header Parameters
+
+| `Authorization` | `Bearer YOUR_TOKEN` |
+|---|---|
+
+##### Query parameters
+|operator| type| description|
+|---|---|---|
+| `limit` | Number | to limit the records |
+| `page` | Number | set the current page |
+
 #### Success response
 ```
 {
