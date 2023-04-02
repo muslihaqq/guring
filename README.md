@@ -21,15 +21,15 @@ For test you can run `bundle exec rspec`
 
 ## User Endpoints
 ### Overview
-- [GET /api/v1/users]
-- [POST /api/v1/users/login] 
-- [POST /api/v1/users/:id/follow]
-- [DELETE /api/v1/users/:id/unfollow]
-- [GET /api/v1/users/:id/sleep_records]
-- [GET /api/v1/users/:id]
-- [POST /api/v1/sleep_records/clock_in]
-- [PATCH /api/v1/sleep_records/clock_out]
-- [GET /api/v1/sleep_records]
+- [GET /api/v1/users](https://github.com/muslihaqq/guring#get-apiv1users)
+- [POST /api/v1/users/login](https://github.com/muslihaqq/guring#post-apiv1userslogin)
+- [POST /api/v1/users/:id/follow](https://github.com/muslihaqq/guring#post-apiv1usersidfollow)
+- [DELETE /api/v1/users/:id/unfollow](https://github.com/muslihaqq/guring#delete-apiv1usersidunfollow)
+- [GET /api/v1/users/:id/sleep_records](https://github.com/muslihaqq/guring#get-apiv1usersidsleep_records)
+- [GET /api/v1/users/:id](https://github.com/muslihaqq/guring#get-apiv1usersid)
+- [POST /api/v1/sleep_records/clock_in](https://github.com/muslihaqq/guring#post-apiv1sleep_recordsclock_in)
+- [PATCH /api/v1/sleep_records/clock_out](https://github.com/muslihaqq/guring#patch-apiv1sleep_recordsclock_out)
+- [GET /api/v1/sleep_records](https://github.com/muslihaqq/guring#get-apiv1sleep_records)
 
 
 ### GET /api/v1/users
@@ -180,6 +180,11 @@ curl --request GET \
 			"sleep_time": 86399.999999999
 		},
 		...
+		"metadata": {
+    		"prev_page": null,
+    		"current_page": 1,
+    		"next_page": null
+	    }
 	]
 }
 ```
